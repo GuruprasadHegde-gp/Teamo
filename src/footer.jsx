@@ -1,7 +1,15 @@
-const footer = () =>{
-    return(
-        <footer>
-            <footer><h4>This is a footer</h4></footer>
+const footer = () => {
+    var today = new Date();
+    return (
+        <footer className="container">
+            <div className="row justify-content-center mt-3 mb-4">
+                <div className="col-8 text-center">
+                    <h5>Team member Allocation App - {today.getFullYear()}</h5>
+
+                </div>
+
+            </div>
+
         </footer>
     )
 }

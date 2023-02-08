@@ -2,13 +2,26 @@ import React from "react";
 import Header from "./header";
 import Footer from "./footer";
 import Employee from "./employee";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 const App = () => {
-  const [currentTeam, setTeam] = useState("TeamA");
-  const [employees, setEmployees] = useState([{
+
+  const [teams, addTeam] = useState([{
+    tName: "TeamA"
+  },
+  {
+    tName: "TeamB"
+  },
+  {
+    tName: "TeamC"
+  },
+  {
+    tName: "TeamD"
+  }])
+  const [currentTeam, setTeam] = useState(JSON.parse(localStorage.getItem('updatedTeamList')) || "TeamA");
+  const [employees, setEmployees] = useState(JSON.parse(localStorage.getItem('employeeList')) || [{
     id: 1,
     fullName: "Bob Jones",
     designation: "JavaScript Developer",
@@ -108,15 +121,28 @@ const App = () => {
     setEmployees(transformedEmployeeArray);
   }
 
+
+
+  useEffect(() => {
+    localStorage.setItem('employeeList', JSON.stringify(employees))
+  }, [employees])
+
+  useEffect(() => {
+    localStorage.setItem('updatedTeamList', JSON.stringify(currentTeam))
+  }, ([currentTeam]))
+
   return (
     <div className="container">
       <Header currentTeam={currentTeam}
         teamMemberCount={employees.filter((employee) => employee.teamName === currentTeam).length}
+
       />
       <Employee employees={employees}
         currentTeam={currentTeam}
+        teams={teams}
         handleChange={handleChange}
         onClickCard={onClickCard}
+        addTeam={addTeam}
       />
       <Footer />
     </div>
